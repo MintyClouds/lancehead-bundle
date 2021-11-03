@@ -1,0 +1,3 @@
+[submodule "dashboard-icons"]
+	path = dashboard-icons
+	url = https://github.com/walkxcode/dashboard-icons.git
