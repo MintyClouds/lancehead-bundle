@@ -32,5 +32,5 @@ services:
       DB_PASS: ${WIKIJS_POSTGRES_PASSWORD}
       DB_NAME: ${WIKIJS_POSTGRES_DB}
     ports:
-      - ${WIKIJS_WEB_PORT}:3000"
+      - ${WIKIJS_WEB_PORT}:3000
     
