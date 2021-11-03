@@ -1,0 +1,36 @@
+version: "3.7"
+services:
+  # Homer
+  homer:
+    image: b4bz/homer:${HOMER_VERSION}
+    hostname: ${HOSTNAME}
+    container_name: homer
+    restart: unless-stopped
+    volumes:
+      - ./homer-config.yml:/www/assets/config.yml
+      - ./dashboard-icons:/www/assets-ext/
+      - ./mintyclouds-logo.png:/www/assets/mintyclouds-logo.png
+    environment:
+      - UID=1000
+      - GID=1000
+      - TZ=Europe/Moscow
+    ports:
+      - ${HOMER_WEB_PORT}:8080
+
+
+  # Wiki.js
+  wikijs:
+    image: requarks/wiki:${WIKIJS_VERSION}
+    hostname: ${HOSTNAME}
+    container_name: wikijs
+    restart: unless-stopped
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: ${WIKIJS_POSTGRES_HOST}
+      DB_PORT: ${WIKIJS_POSTGRES_PORT}
+      DB_USER: ${WIKIJS_POSTGRES_USER}
+      DB_PASS: ${WIKIJS_POSTGRES_PASSWORD}
+      DB_NAME: ${WIKIJS_POSTGRES_DB}
+    ports:
+      - ${WIKIJS_WEB_PORT}:3000"
+    
