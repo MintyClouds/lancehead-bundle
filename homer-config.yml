@@ -155,7 +155,7 @@ services:
         tag: "rattlesnake"
         url: "https://authelia.mintyclouds.in"
   - name: "Lancehead"
-    icon: "fas fa-europe"
+    icon: "fas fa-globe-europe"
     items:
       - name: "Wiki.js"
         logo: "assets-ext/png/wikijs.png"
