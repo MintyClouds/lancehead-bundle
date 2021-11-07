@@ -57,7 +57,7 @@ links:
   - name: "Sentinel"
     icon: "fas fa-ethernet"
     url: "https://sentinel.chronowings.mintyclouds.in"
-  - name: "Cobra"
+  - name: "Cobra Controller"
     icon: "fas fa-cogs"
     url: "https://controller.chronowings.mintyclouds.in"
   # this will link to a second homer page that will load config from additionnal-page.yml and keep default config values as in config.yml file
