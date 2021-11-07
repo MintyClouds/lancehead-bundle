@@ -51,15 +51,15 @@ colors:
 # Optional navbar
 # links: [] # Allows for navbar (dark mode, layout, and search) without any links
 links:
-  - name: "White Snake"
-    icon: "fas fa-server"
-    url: "https://whitesnake.mintyclouds.in"
   - name: "Sentinel"
     icon: "fas fa-ethernet"
     url: "https://sentinel.chronowings.mintyclouds.in"
-  - name: "Cobra Controller"
+  - name: "White Snake"
+    icon: "fas fa-server"
+    url: "https://whitesnake.mintyclouds.in"
+  - name: "Cobra"
     icon: "fas fa-cogs"
-    url: "https://controller.chronowings.mintyclouds.in"
+    url: "https://hassio.mintyclouds.in"
   # this will link to a second homer page that will load config from additionnal-page.yml and keep default config values as in config.yml file
   # see url field and assets/additionnal-page.yml.dist used in this example:
   # - name: "another page!"
