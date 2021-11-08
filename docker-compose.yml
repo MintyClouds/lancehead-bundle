@@ -23,7 +23,6 @@ services:
     image: postgres:${WIKIJS_POSTGRES_VERSION}
     container_name: wikijs-postgresql
     restart: unless-stopped
-    user: "${WIKIJS_POSTGRES_SYSTEM_USER}"
     environment:
       POSTGRES_PASSWORD: "${WIKIJS_POSTGRES_PASSWORD}"
       POSTGRES_USER: "${WIKIJS_POSTGRES_USER}"
