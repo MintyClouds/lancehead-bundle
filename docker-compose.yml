@@ -51,6 +51,8 @@ services:
 
   photoview-postgresql:
     image: postgres:${PHOTOVIEW_POSTGRES_VERSION}
+    restart: unless-stopped
+    container_name: photoview-postgresql
     environment:
       POSTGRES_USER: "${PHOTOVIEW_POSTGRES_USER}"
       POSTGRES_PASSWORD: "${PHOTOVIEW_POSTGRES_PASSWORD}"
@@ -60,7 +62,8 @@ services:
 
   photoview:
     image: viktorstrate/photoview:${PHOTOVIEW_VERSION}
-    restart: always
+    restart: unless-stopped
+    container_name: photoview
     ports:
       - "${PHOTOVIEW_WEB_PORT}:80"
 
