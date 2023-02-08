@@ -86,8 +86,10 @@ services:
       # If the photos are located at `/home/user/photos`, then change this value
       # to the following: `/home/user/photos:/photos:ro`.
       # You can mount multiple paths, if your photos are spread across multiple directories.
-      - ${MEDIA_PATH}:/data:ro
       - ${PHOTOVIEW_DATA_PATH}:/app/cache
+      - ${PHOTOVIEW_GALLERY_PATH}:/gallery:ro
+      - ${PHOTOVIEW_MEDIA_PATH}/images:/media/images:ro
+      - ${PHOTOVIEW_MEDIA_PATH}/nsfw:/media/nsfw:ro
     depends_on:
       - photoview-postgresql
 
