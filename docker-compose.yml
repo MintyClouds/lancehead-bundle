@@ -48,4 +48,47 @@ services:
       - ${WIKIJS_WEB_PORT}:3000
     depends_on:
       - wikijs-postgresql
+
+  photoview-postgresql:
+    image: postgres:${PHOTOVIEW_POSTGRES_VERSION}
+    environment:
+      POSTGRES_USER: "${PHOTOVIEW_POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${PHOTOVIEW_POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${PHOTOVIEW_POSTGRES_DB}"
+    volumes:
+      - ${PHOTOVIEW_POSTGRES_DATA_PATH}:/var/lib/postgresql/data
+
+  photoview:
+    image: viktorstrate/photoview:${PHOTOVIEW_VERSION}
+    restart: always
+    ports:
+      - "${PHOTOVIEW_WEB_PORT}:80"
+
+    environment:
+      - PHOTOVIEW_DATABASE_DRIVER=postgres
+      - PHOTOVIEW_POSTGRES_URL=postgres://${PHOTOVIEW_POSTGRES_USER}:${PHOTOVIEW_POSTGRES_PASSWORD}@photoview-postgresql/${PHOTOVIEW_POSTGRES_DB}
+      - PHOTOVIEW_LISTEN_IP=photoview
+      - PHOTOVIEW_LISTEN_PORT=80
+      - PHOTOVIEW_MEDIA_CACHE=/app/cache
+      
+      # Optional: If you are using Samba/CIFS-Share and experience problems with "directory not found"
+      # Enable the following Godebug
+      # - GODEBUG=asyncpreemptoff=1
+      
+      
+      # Optional: To enable map related features, you need to create a mapbox token.
+      # A token can be generated for free here https://account.mapbox.com/access-tokens/
+      # It's a good idea to limit the scope of the token to your own domain, to prevent others from using it.
+      # - MAPBOX_TOKEN=<YOUR TOKEN HERE>
+
+    volumes:
+      # Change This: to the directory where your photos are located on your server.
+      # If the photos are located at `/home/user/photos`, then change this value
+      # to the following: `/home/user/photos:/photos:ro`.
+      # You can mount multiple paths, if your photos are spread across multiple directories.
+      - ${MEDIA_PATH}:/data:ro
+      - ${PHOTOVIEW_DATA_PATH}:/app/cache
+    depends_on:
+      - photoview-postgresql
+
     
