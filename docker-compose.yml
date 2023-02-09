@@ -60,7 +60,7 @@ services:
       - ${PIGALLERY_WEB_PORT}:3000
     restart: unless-stopped
 
-  pigallery2:
+  pigallery:
     image: bpatrik/pigallery2:${PIGALLERY_VERSION}
     container_name: pigallery
     environment:
@@ -72,5 +72,5 @@ services:
       - "${PIGALLERY_GALLERY_PATH}:/app/data/images/gallery:ro"
       - "${PIGALLERY_MEDIA_PATH}/images:/app/data/images/media/images:ro"
       - "${PIGALLERY_MEDIA_PATH}/nsfw:/app/data/images/media/nsfw:ro"
-    restart: always
+    restart: unless-stopped
 
