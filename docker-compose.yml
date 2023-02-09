@@ -101,6 +101,9 @@ services:
     image: reallibrephotos/librephotos-proxy:${LIBREPHOTOS_VERSION}
     container_name: librephotos-proxy
     restart: unless-stopped
+    environment:
+      - BACKEND_NAME=librephotos-backend
+      - FRONTEND_NAME=librephotos-frontend
     volumes:
       - ${LIBREPHOTOS_GALLERY_PATH}:/data/gallery:ro
       - ${LIBREPHOTOS_MEDIA_PATH}/images:/data/media/images:ro
