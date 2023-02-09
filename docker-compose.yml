@@ -84,6 +84,8 @@ services:
       - "${PIGALLERY_MEDIA_PATH}/images:/app/data/images/media/images:ro"
       - "${PIGALLERY_MEDIA_PATH}/nsfw:/app/data/images/media/nsfw:ro"
     restart: unless-stopped
+    depends_on:
+      - pigallery-db
     command:
       sh -c 'bin/wait-for pigallery-db:3306 --
       -Server-Database-mysql-host=pigallery-db 
