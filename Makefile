@@ -14,12 +14,12 @@ ps:
 	sudo ${compose} ps
 
 librephotos-build:
-	sudo ${compose} up -d librephotos-proxy librephotos-frontend librephotos-backend
+	sudo ${compose} up -d librephotos-proxy librephotos-frontend librephotos-backend librephotos-db librephotos-redis
 librephotos-stop:
-	sudo ${compose} stop librephotos-proxy librephotos-frontend librephotos-backend
+	sudo ${compose} stop librephotos-proxy librephotos-frontend librephotos-backend librephotos-db librephotos-redis
 librephotos-restart:
-	sudo ${compose} restart librephotos-proxy librephotos-frontend librephotos-backend
+	sudo ${compose} restart librephotos-proxy librephotos-frontend librephotos-backend librephotos-db librephotos-redis
 librephotos-logs:
-	sudo ${compose} logs -f librephotos-proxy librephotos-frontend librephotos-backend
+	sudo ${compose} logs -f librephotos-proxy librephotos-frontend librephotos-backend librephotos-db librephotos-redis
 librephotos-rm:
-	sudo ${compose} rm -f librephotos-proxy librephotos-frontend librephotos-backend
+	sudo ${compose} rm -f librephotos-proxy librephotos-frontend librephotos-backend librephotos-db librephotos-redis
