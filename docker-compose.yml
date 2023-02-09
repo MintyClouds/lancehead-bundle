@@ -105,7 +105,7 @@ services:
     volumes:
       - ${DAMSELFLY_DATA_PATH}:/config
       - ${DAMSELFLY_DATA_PATH}/thumbs:/thumbs
-      - ${DAMSELFLY_GALLERY_PATH}:/pictures/gallery 
-      - ${DAMSELFLY_MEDIA_PATH}/images:/pictures/media/images
-      - ${DAMSELFLY_MEDIA_PATH}/nsfw:/pictures/media/nsfw
+      - ${DAMSELFLY_GALLERY_PATH}:/pictures/gallery:ro
+      - ${DAMSELFLY_MEDIA_PATH}/images:/pictures/media/images:ro
+      - ${DAMSELFLY_MEDIA_PATH}/nsfw:/pictures/media/nsfw:ro
     
