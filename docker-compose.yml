@@ -142,7 +142,7 @@ services:
       - ${LIBREPHOTOS_GALLERY_PATH}:/data/gallery:ro
       - ${LIBREPHOTOS_MEDIA_PATH}/images:/data/media/images:ro
       - ${LIBREPHOTOS_MEDIA_PATH}/nsfw:/data/media/nsfw:ro
-      
+
       - ${LIBREPHOTOS_DATA_PATH}/protected_media:/protected_media
       - ${LIBREPHOTOS_DATA_PATH}/logs:/logs
       - ${LIBREPHOTOS_DATA_PATH}/cache:/root/.cache
@@ -167,9 +167,9 @@ services:
       - DEBUG=0
       - HEAVYWEIGHT_PROCESS=${HEAVYWEIGHT_PROCESS:-}
     depends_on:
-      db:
+      librephotos-db:
         condition: service_healthy
-      redis:
+      librephotos-redis:
         condition: service_healthy
 
   librephotos-redis:
