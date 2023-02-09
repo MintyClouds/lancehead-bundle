@@ -107,8 +107,8 @@ services:
     ports:
       - ${LIBREPHOTOS_WEB_PORT}:80
     depends_on:
-      - backend
-      - frontend
+      - librephotos-backend
+      - librephotos-frontend
 
   librephotos-db:
     image: postgres:${LIBREPHOTOS_POSTGRES_VERSION}
