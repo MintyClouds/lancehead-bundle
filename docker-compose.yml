@@ -107,7 +107,6 @@ services:
   filerun:
     image: filerun/filerun
     container_name: filerun
-    user: ${FILERUN_UID}:${FILERUN_UID}
     environment:
       FR_DB_HOST: filerun-db
       FR_DB_PORT: 3306
