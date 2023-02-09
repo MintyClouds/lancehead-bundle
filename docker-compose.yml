@@ -49,3 +49,28 @@ services:
     depends_on:
       - wikijs-postgresql
 
+  pigallery-nginx:
+    image: nginx:${PIGALLERY_NGINX_VERSION}
+    container_name: pigallery-nginx
+    volumes:
+      - ./pigallery-nginx.conf:/etc/nginx/nginx.conf
+      - ${PIGALLERY_DATA_PATH}/nginx/error.log:/etc/nginx/error_log.log
+      - ${PIGALLERY_DATA_PATH}/nginx/cache/:/etc/nginx/cache
+    ports:
+      - ${PIGALLERY_WEB_PORT}:3000
+    restart: unless-stopped
+
+  pigallery2:
+    image: bpatrik/pigallery2:${PIGALLERY_VERSION}
+    container_name: pigallery
+    environment:
+      - NODE_ENV=production # set to 'debug' for full debug logging
+    volumes:
+      - "${PIGALLERY_DATA_PATH}/pigallery2/config:/app/data/config"
+      - "${PIGALLERY_DATA_PATH}/pigallery2/db-data:/app/data/db"
+      - "${PIGALLERY_DATA_PATH}/pigallery2/tmp:/app/data/tmp"
+      - "${PIGALLERY_GALLERY_PATH}:/app/data/images/gallery:ro"
+      - "${PIGALLERY_MEDIA_PATH}/images:/app/data/images/media/images:ro"
+      - "${PIGALLERY_MEDIA_PATH}/nsfw:/app/data/images/media/nsfw:ro"
+    restart: always
+
