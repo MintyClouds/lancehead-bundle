@@ -60,6 +60,17 @@ services:
       - ${PIGALLERY_WEB_PORT}:3000
     restart: unless-stopped
 
+  pigallery-db:
+    container_name: pigallery-db
+    image: mariadb:${PIGALLERY_MARIADB_VERSION}
+    volumes:
+      - ${PIGALLERY_DATA_PATH}/db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${PIGALLERY_MARIADB_ROOT_PASSWORD}
+      - MYSQL_USER=${PIGALLERY_MARIADB_USER}
+      - MYSQL_PASSWORD=${PIGALLERY_MARIADB_PASSWORD}
+      - MYSQL_DATABASE=${PIGALLERY_MARIADB_DB}
+
   pigallery:
     image: bpatrik/pigallery2:${PIGALLERY_VERSION}
     container_name: pigallery
@@ -73,4 +84,10 @@ services:
       - "${PIGALLERY_MEDIA_PATH}/images:/app/data/images/media/images:ro"
       - "${PIGALLERY_MEDIA_PATH}/nsfw:/app/data/images/media/nsfw:ro"
     restart: unless-stopped
+        command: |
+          sh -c 'bin/wait-for pigallery-db:3306 --
+          -Server-Database-mysql-host=pigallery-db 
+          --Server-Database-mysql-username=${PIGALLERY_MARIADB_USER}
+          --Server-Database-mysql-password=${PIGALLERY_MARIADB_PASSWORD}
+          --Server-Database-mysql-database=${PIGALLERY_MARIADB_DB}'
 
