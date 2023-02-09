@@ -122,7 +122,7 @@ services:
     volumes:
       - ${FILERUN_DATA_PATH}/data:/var/www/html
       - /filerun/user-files:/user-files
-      - "${FILERUN_GALLERY_PATH}:/user-files/gallery"
-      - "${FILERUN_MEDIA_PATH}/images:/user-files/media/images"
-      - "${FILERUN_MEDIA_PATH}/nsfw:/user-files/media/nsfw"
+      - "${FILERUN_GALLERY_PATH}:/user-files/gallery:ro"
+      - "${FILERUN_MEDIA_PATH}/images:/user-files/media/images:ro"
+      - "${FILERUN_MEDIA_PATH}/nsfw:/user-files/media/nsfw:ro"
 
