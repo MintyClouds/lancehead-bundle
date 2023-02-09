@@ -21,3 +21,5 @@ librephotos-restart:
         sudo ${compose} restart librephotos-proxy librephotos-frontend librephotos-backend
 librephotos-logs:
         sudo ${compose} logs -f librephotos-proxy librephotos-frontend librephotos-backend
+librephotos-rm:
+        sudo ${compose} rm -f librephotos-proxy librephotos-frontend librephotos-backend
