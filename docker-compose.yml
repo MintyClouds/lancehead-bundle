@@ -104,7 +104,7 @@ services:
     volumes:
       - ${LIBREPHOTOS_GALLERY_PATH}:/data/gallery:ro
       - ${LIBREPHOTOS_MEDIA_PATH}/images:/data/media/images:ro
-      - ${LIBREPHOTOS_MEDIA_PATH}/nsfw:/data/media/nsfw:XSro
+      - ${LIBREPHOTOS_MEDIA_PATH}/nsfw:/data/media/nsfw:ro
       - ${LIBREPHOTOS_DATA_PATH}/protected_media:/protected_media
     ports:
       - ${LIBREPHOTOS_WEB_PORT}:80
@@ -139,7 +139,10 @@ services:
     container_name: librephotos-backend
     restart: unless-stopped
     volumes:
-      - ${LIBREPHOTOS_SCAN_DIRECTORY_PATH}:/data
+      - ${LIBREPHOTOS_GALLERY_PATH}:/data/gallery:ro
+      - ${LIBREPHOTOS_MEDIA_PATH}/images:/data/media/images:ro
+      - ${LIBREPHOTOS_MEDIA_PATH}/nsfw:/data/media/nsfw:ro
+      
       - ${LIBREPHOTOS_DATA_PATH}/protected_media:/protected_media
       - ${LIBREPHOTOS_DATA_PATH}/logs:/logs
       - ${LIBREPHOTOS_DATA_PATH}/cache:/root/.cache
