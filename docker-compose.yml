@@ -99,20 +99,20 @@ services:
     
   librephotos-proxy:
     image: reallibrephotos/librephotos-proxy:${LIBREPHOTOS_VERSION}
-    container_name: proxy
+    container_name: librephotos-proxy
     restart: unless-stopped
     volumes:
       - ${LIBREPHOTOS_SCAN_DIRECTORY_PATH}:/data
       - ${LIBREPHOTOS_DATA_PATH}/protected_media:/protected_media
     ports:
-      - ${httpPort}:80
+      - ${LIBREPHOTOS_WEB_PORT}:80
     depends_on:
       - backend
       - frontend
 
   librephotos-db:
     image: postgres:${LIBREPHOTOS_POSTGRES_VERSION}
-    container_name: db
+    container_name: librephotos-db
     restart: unless-stopped
     environment:
       - POSTGRES_USER=${LIBREPHOTOS_POSTGRES_USER}
@@ -129,12 +129,12 @@ services:
 
   librephotos-frontend:
     image: reallibrephotos/librephotos-frontend:${LIBREPHOTOS_VERSION}
-    container_name: frontend
+    container_name: librephotos-frontend
     restart: unless-stopped
 
   librephotos-backend:
     image: reallibrephotos/librephotos:${LIBREPHOTOS_VERSION}
-    container_name: backend
+    container_name: librephotos-backend
     restart: unless-stopped
     volumes:
       - ${LIBREPHOTOS_SCAN_DIRECTORY_PATH}:/data
@@ -142,11 +142,11 @@ services:
       - ${LIBREPHOTOS_DATA_PATH}/logs:/logs
       - ${LIBREPHOTOS_DATA_PATH}/cache:/root/.cache
     environment:
-      - SECRET_KEY=${shhhhKey:-}
-      - BACKEND_HOST=backend
-      - ADMIN_EMAIL=${adminEmail:-}
-      - ADMIN_USERNAME=${userName:-}
-      - ADMIN_PASSWORD=${userPass:-}
+      - SECRET_KEY=${LIBREPHOTOS_SECRET_KEY:-}
+      - BACKEND_HOST=librephotos-backend
+      - ADMIN_EMAIL=${LIBREPHOTOS_ADMIN_EMAIL:-}
+      - ADMIN_USERNAME=${LIBREPHOTOS_ADMIN_USERNAME:-}
+      - ADMIN_PASSWORD=${LIBREPHOTOS_ADMIN_PASSWORD:-}
       - DB_BACKEND=postgresql
       - DB_NAME=${LIBREPHOTOS_POSTGRES_DB}
       - DB_USER=${LIBREPHOTOS_POSTGRES_USER}
