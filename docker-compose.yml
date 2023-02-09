@@ -96,91 +96,16 @@ services:
     depends_on:
       - photoview-postgresql
 
-    
-  librephotos-proxy:
-    image: reallibrephotos/librephotos-proxy:${LIBREPHOTOS_VERSION}
-    container_name: librephotos-proxy
+  damselfly: 
+    container_name: damselfly
     restart: unless-stopped
-    environment:
-      - BACKEND_NAME=librephotos-backend
-      - FRONTEND_NAME=librephotos-frontend
-    volumes:
-      - ${LIBREPHOTOS_GALLERY_PATH}:/data/gallery:ro
-      - ${LIBREPHOTOS_MEDIA_PATH}/images:/data/media/images:ro
-      - ${LIBREPHOTOS_MEDIA_PATH}/nsfw:/data/media/nsfw:ro
-      - ${LIBREPHOTOS_DATA_PATH}/protected_media:/protected_media
+    image: webreaper/damselfly:${DAMSELFLY_VERSION}
     ports:
-      - ${LIBREPHOTOS_WEB_PORT}:80
-    depends_on:
-      - librephotos-backend
-      - librephotos-frontend
-
-  librephotos-db:
-    image: postgres:${LIBREPHOTOS_POSTGRES_VERSION}
-    container_name: librephotos-db
-    restart: unless-stopped
-    environment:
-      - POSTGRES_USER=${LIBREPHOTOS_POSTGRES_USER}
-      - POSTGRES_PASSWORD=${LIBREPHOTOS_POSTGRES_PASSWORD}
-      - POSTGRES_DB=${LIBREPHOTOS_POSTGRES_DB}
+      - ${DAMSELFLY_WEB_PORT}:6363/tcp
     volumes:
-      - ${LIBREPHOTOS_DATA_PATH}/db:/var/lib/postgresql/data
-    command: postgres -c fsync=off -c synchronous_commit=off -c full_page_writes=off -c random_page_cost=1.0
-    healthcheck:
-      test: psql -U ${LIBREPHOTOS_POSTGRES_USER} -d ${LIBREPHOTOS_POSTGRES_DB} -c "SELECT 1;"
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  librephotos-frontend:
-    image: reallibrephotos/librephotos-frontend:${LIBREPHOTOS_VERSION}
-    container_name: librephotos-frontend
-    restart: unless-stopped
-
-  librephotos-backend:
-    image: reallibrephotos/librephotos:${LIBREPHOTOS_VERSION}
-    container_name: librephotos-backend
-    restart: unless-stopped
-    volumes:
-      - ${LIBREPHOTOS_GALLERY_PATH}:/data/gallery:ro
-      - ${LIBREPHOTOS_MEDIA_PATH}/images:/data/media/images:ro
-      - ${LIBREPHOTOS_MEDIA_PATH}/nsfw:/data/media/nsfw:ro
-
-      - ${LIBREPHOTOS_DATA_PATH}/protected_media:/protected_media
-      - ${LIBREPHOTOS_DATA_PATH}/logs:/logs
-      - ${LIBREPHOTOS_DATA_PATH}/cache:/root/.cache
-    environment:
-      - SECRET_KEY=${LIBREPHOTOS_SECRET_KEY:-}
-      - BACKEND_HOST=librephotos-backend
-      - ADMIN_EMAIL=${LIBREPHOTOS_ADMIN_EMAIL:-}
-      - ADMIN_USERNAME=${LIBREPHOTOS_ADMIN_USERNAME:-}
-      - ADMIN_PASSWORD=${LIBREPHOTOS_ADMIN_PASSWORD:-}
-      - DB_BACKEND=postgresql
-      - DB_NAME=${LIBREPHOTOS_POSTGRES_DB}
-      - DB_USER=${LIBREPHOTOS_POSTGRES_USER}
-      - DB_PASS=${LIBREPHOTOS_POSTGRES_PASSWORD}
-      - DB_HOST=librephotos-db
-      - DB_PORT=5432
-      - REDIS_HOST=librephotos-redis
-      - REDIS_PORT=6379
-      - MAPBOX_API_KEY=${mapApiKey:-}
-      - WEB_CONCURRENCY=${LIBREPHOTOS_WORKERS:-1}
-      - SKIP_PATTERNS=${skipPatterns:-}
-      - ALLOW_UPLOAD=${allowUpload:-false}
-      - DEBUG=0
-      - HEAVYWEIGHT_PROCESS=${HEAVYWEIGHT_PROCESS:-}
-    depends_on:
-      librephotos-db:
-        condition: service_healthy
-      librephotos-redis:
-        condition: service_healthy
-
-  librephotos-redis:
-    image: redis:${LIBREPHOTOS_REDIS_VERSION}
-    container_name: librephotos-redis
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
-      interval: 5s
-      timeout: 5s
-      retries: 12
+      - ${DAMSELFLY_DATA_PATH}:/config
+      - ${DAMSELFLY_DATA_PATH}/thumbs:/thumbs
+      - ${DAMSELFLY_GALLERY_PATH}:/pictures/gallery 
+      - ${DAMSELFLY_MEDIA_PATH}/images:/pictures/media/images
+      - ${DAMSELFLY_MEDIA_PATH}/nsfw:/pictures/media/nsfw
+    
