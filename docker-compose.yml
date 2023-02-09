@@ -164,7 +164,7 @@ services:
       - REDIS_HOST=librephotos-redis
       - REDIS_PORT=6379
       - MAPBOX_API_KEY=${mapApiKey:-}
-      - WEB_CONCURRENCY=${gunniWorkers:-1}
+      - WEB_CONCURRENCY=${LIBREPHOTOS_WORKERS:-1}
       - SKIP_PATTERNS=${skipPatterns:-}
       - ALLOW_UPLOAD=${allowUpload:-false}
       - DEBUG=0
