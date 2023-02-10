@@ -82,8 +82,7 @@ services:
       - "${PIGALLERY_DATA_PATH}/pigallery2/db-data:/app/data/db"
       - "${PIGALLERY_DATA_PATH}/pigallery2/tmp:/app/data/tmp"
       - "${PIGALLERY_GALLERY_PATH}:/app/data/images/gallery:ro"
-      - "${PIGALLERY_MEDIA_PATH}/images:/app/data/images/media/images:ro"
-      - "${PIGALLERY_MEDIA_PATH}/nsfw:/app/data/images/media/nsfw:ro"
+      - "${PIGALLERY_MEDIA_PATH}/images:/app/data/images/media:ro"
     restart: unless-stopped
     depends_on:
       - pigallery-db
@@ -93,3 +92,35 @@ services:
       --Server-Database-mysql-username=${PIGALLERY_MARIADB_USER}
       --Server-Database-mysql-password=${PIGALLERY_MARIADB_PASSWORD}
       --Server-Database-mysql-database=${PIGALLERY_MARIADB_DB}'
+
+  pigallery-nsfw-nginx:
+    image: nginx:${PIGALLERY_NGINX_VERSION}
+    container_name: pigallery-nginx
+    volumes:
+      - ./pigallery-nginx-nsfw.conf:/etc/nginx/nginx.conf
+      - ${PIGALLERY_DATA_PATH}/nginx-nsfw/cache/:/etc/nginx/cache
+    ports:
+      - ${PIGALLERY_NSFW_WEB_PORT}:3000
+    restart: unless-stopped
+
+  pigallery-nsfw:
+    image: bpatrik/pigallery2:${PIGALLERY_VERSION}
+    user: ${PIGALLERY_UID}:${PIGALLERY_UID}
+    container_name: pigallery
+    environment:
+      - NODE_ENV=production # set to 'debug' for full debug logging
+    volumes:
+      - "${PIGALLERY_DATA_PATH}/pigallery2-nsfw/config:/app/data/config"
+      - "${PIGALLERY_DATA_PATH}/pigallery2-nsfw/db-data:/app/data/db"
+      - "${PIGALLERY_DATA_PATH}/pigallery2-nsfw/tmp:/app/data/tmp"
+      - "${PIGALLERY_NSFW_GALLERY_PATH}:/app/data/images/gallery:ro"
+      - "${PIGALLERY_NSFW_MEDIA_PATH}/images:/app/data/images/media:ro"
+    restart: unless-stopped
+    depends_on:
+      - pigallery-db
+    command:
+      sh -c 'bin/wait-for pigallery-db:3306 --
+      -Server-Database-mysql-host=pigallery-db 
+      --Server-Database-mysql-username=${PIGALLERY_MARIADB_USER}
+      --Server-Database-mysql-password=${PIGALLERY_MARIADB_PASSWORD}
+      --Server-Database-mysql-database=${PIGALLERY_NSFW_MARIADB_DB}'
