@@ -82,7 +82,8 @@ services:
       - "${PIGALLERY_DATA_PATH}/pigallery2/db-data:/app/data/db"
       - "${PIGALLERY_DATA_PATH}/pigallery2/tmp:/app/data/tmp"
       - "${PIGALLERY_GALLERY_PATH}:/app/data/images/gallery:ro"
-      - "${PIGALLERY_MEDIA_PATH}/images:/app/data/images/media:ro"
+      - "${PIGALLERY_SCREENSHOTS_PATH}:/app/data/images/screenshots:ro"
+      - "${PIGALLERY_MEDIA_PATH}:/app/data/images/media:ro"
     restart: unless-stopped
     depends_on:
       - pigallery-db
@@ -114,7 +115,7 @@ services:
       - "${PIGALLERY_DATA_PATH}/pigallery2-nsfw/db-data:/app/data/db"
       - "${PIGALLERY_DATA_PATH}/pigallery2-nsfw/tmp:/app/data/tmp"
       - "${PIGALLERY_NSFW_GALLERY_PATH}:/app/data/images/gallery:ro"
-      - "${PIGALLERY_NSFW_MEDIA_PATH}/images:/app/data/images/media:ro"
+      - "${PIGALLERY_NSFW_MEDIA_PATH}:/app/data/images/media:ro"
     restart: unless-stopped
     depends_on:
       - pigallery-db
