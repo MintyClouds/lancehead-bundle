@@ -96,7 +96,7 @@ services:
 
   pigallery-nsfw-nginx:
     image: nginx:${PIGALLERY_NGINX_VERSION}
-    container_name: pigallery-nginx
+    container_name: pigallery-nsfw-nginx
     volumes:
       - ./pigallery-nginx-nsfw.conf:/etc/nginx/nginx.conf
       - ${PIGALLERY_DATA_PATH}/nginx-nsfw/cache/:/etc/nginx/cache
@@ -107,7 +107,7 @@ services:
   pigallery-nsfw:
     image: bpatrik/pigallery2:${PIGALLERY_VERSION}
     user: ${PIGALLERY_UID}:${PIGALLERY_UID}
-    container_name: pigallery
+    container_name: pigallery-nsfw
     environment:
       - NODE_ENV=production # set to 'debug' for full debug logging
     volumes:
